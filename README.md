@@ -33,3 +33,7 @@ It is header-only (there are no corresponding source files). Your job
 is to fill in the TODOs found in the incomplete vector functions. At
 the end, running `./tests` from the build directory should result in
 everything passing.
+
+The `solution` branch contains a working implementation. Ideally, you
+should first implement as much as possible on your own and then
+refer to the solution if you get stuck or if you wish to compare answers.
