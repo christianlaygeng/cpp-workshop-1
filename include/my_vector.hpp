@@ -128,7 +128,7 @@ namespace acmtse {
 
     template <class T>
     inline void my_vector<T>::reserve(size_t size) {
-        if (size <= d_size) {
+        if (size <= d_capacity) {
             return;
         }
         my_vector tmp(size);
