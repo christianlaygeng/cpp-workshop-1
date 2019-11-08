@@ -2,6 +2,7 @@
 #define ACMTSE_MY_VECTOR_HPP
 
 #include <cstddef>
+#include <algorithm>
 
 namespace acmtse {
 
@@ -99,40 +100,63 @@ namespace acmtse {
     }
 
     template <class T>
-    inline my_vector<T>::my_vector(size_t size) {
-        // TODO: Implement size constructor 
+    inline my_vector<T>::my_vector(size_t size) :
+        d_arr_p(new T[size]()), d_size(0), d_capacity(size) {
     }
 
     template <class T>
-    inline my_vector<T>::my_vector(const my_vector &other) {
-        // TODO: Implement copy constructor 
+    inline my_vector<T>::my_vector(const my_vector &other) :
+        d_arr_p(new T[other.d_capacity]()), 
+        d_size(other.d_size), d_capacity(other.d_capacity){
+        for (size_t i = 0; i < d_size; i++) {
+            d_arr_p[i] = other.d_arr_p[i];
+        }
     }
 
     template <class T>
     inline my_vector<T>::~my_vector() {
-        // TODO: Implement destructor 
+        delete[] d_arr_p;
     }
 
     template <class T>
     inline void my_vector<T>::swap(my_vector& other) {
-        // TODO: Implement swap 
+        using std::swap;
+        swap(d_arr_p, other.d_arr_p);
+        swap(d_size, other.d_size);
+        swap(d_capacity, other.d_capacity);
     }
 
     template <class T>
     inline void my_vector<T>::reserve(size_t size) {
-        // TODO: Implement reserve 
+        if (size <= d_size) {
+            return;
+        }
+        my_vector tmp(size);
+        while (tmp.d_size < d_size) {
+            tmp.push_back(d_arr_p[tmp.d_size]);
+        }
+        swap(tmp);
     }
 
     template <class T>
     inline void my_vector<T>::push_back(const T& elem) {
-        // TODO: Implement push_back 
+        if (d_size == d_capacity) {
+            reserve(2 * d_size + 1);
+        }
+        new (d_arr_p + d_size) T(elem);
+        d_size++;
+    }
+
+    template <class T>
+    inline my_vector<T>& my_vector<T>::operator=(const my_vector& other) {
+        my_vector tmp(other);
+        swap(tmp);
+        return *this;
     }
 
     template <class T>
     inline T& my_vector<T>::operator[](size_t idx) {
-        // TODO: Implement array access 
-        T t;
-        return t;
+        return d_arr_p[idx];
     }
 
     template <class T>
